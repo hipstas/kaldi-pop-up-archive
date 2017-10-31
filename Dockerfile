@@ -29,12 +29,6 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
-## Installing FFmpeg and SoX
-RUN add-apt-repository ppa:jonathonf/ffmpeg-3 && apt -y update \
-&& apt install -y ffmpeg libav-tools x264 x265
-RUN apt-get update && apt-get install -y \
-sox libsox-fmt-alsa libsox-fmt-base libsox2
-
 ## Downloading Kaldi & Kaldi PUA resources
 RUN git clone https://github.com/kaldi-asr/kaldi.git kaldi --origin upstream && \
 cd /kaldi/ && git clone https://github.com/popuparchive/american-archive-kaldi && \
@@ -43,19 +37,17 @@ wget https://sourceforge.net/projects/popuparchive-kaldi/files/exp2.tar.gz && \
 tar -xvzf exp2.tar.gz && \
 mv exp2 exp
 
-
 ## Install sctk
-RUN apt-get update && apt-get install -y sctk
+RUN apt-get update && apt-get install -y sctk && \
+alias sclite="sctk sclite"
 
-#RUN cd /kaldi/tools/ && rm -rf sctk-2.4.10
-#RUN wget http://www.openslr.org/resources/4/sctk-2.4.10-20151007-1312Z.tar.bz2 && \
-#tar jxf sctk-2.4.10-20151007-1312Z.tar.bz2 && \
-#cd sctk-2.4.10 && \
-#make config && \
-#make all && \
-#make check && \
-#make install && \
-#make doc && \
+
+## Installing FFmpeg and SoX
+#RUN add-apt-repository ppa:jonathonf/ffmpeg-3 && apt -y update \
+#&& apt install -y ffmpeg libav-tools x264 x265
+RUN apt-get update && apt-get install -y \
+sox libsox-fmt-alsa libsox-fmt-base libsox2
+
 
 
 #### Don't touch above this line. ####
