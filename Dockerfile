@@ -4,7 +4,9 @@ MAINTAINER Steve McLaughlin <stephen.mclaughlin@utexas.edu>
 
 ENV PYTHONWARNINGS="ignore:a true SSLContext object"
 
-apt-get update && apt-get install -y \
+ENV SHELL /bin/bash
+
+RUN apt-get update && apt-get install -y \
 wget \
 acpid \
 apport \
@@ -225,4 +227,9 @@ WORKDIR /home
 
 
 #git clone https://github.com/kaldi-asr/kaldi.git kaldi --origin upstream
-#cd kaldi
+#cd kaldi/tools
+#make
+
+
+#wget https://sourceforge.net/projects/popuparchive-kaldi/files/exp2.tar.gz
+#wget https://sourceforge.net/projects/popuparchive-kaldi/files/exp.zip
