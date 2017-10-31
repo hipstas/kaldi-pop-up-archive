@@ -8,13 +8,14 @@ ENV SHELL /bin/bash
 ## Installing core system dependencies
 RUN apt-get update && \
 apt-get install -y \
-g++ zlib1g-dev make automake libtool-bin git autoconf build-essential && \
+g++ zlib1g-dev make automake libtool-bin git build-essential && \
 apt-get install -y \
 software-properties-common subversion libatlas3-base bzip2 wget curl gawk \
-zip unzip libperl4-corelibs-perl libjson-perl python2.7 && \
+zip unzip libperl4-corelibs-perl libjson-perl python2.7 python-pip && \
+pip install -U ftfy && \
 ln -s -f bash /bin/sh
 
-## Installing older C/C++ compilers
+## Installing old C/C++ compilers
 RUN apt-get update && \
 apt-get install -y gcc-4.8 g++-4.8 libgcc-4.8-dev && \
 alias gcc='gcc-4.8' && alias cc='gcc-4.8' && \
@@ -39,10 +40,7 @@ cd /kaldi/tools && make && \
 cd /kaldi/src && ./configure && make depend && make
 
 ## Download PUA resources
-cd /kaldi/ && git clone https://github.com/popuparchive/american-archive-kaldi && \
+RUN cd /kaldi/ && git clone https://github.com/popuparchive/american-archive-kaldi && \
 cd /kaldi/american-archive-kaldi/sample_experiment/ && \
 wget https://sourceforge.net/projects/popuparchive-kaldi/files/exp2.tar.gz && \
 tar -xvzf exp2.tar.gz
-
-#&& \
-#mv exp2 exp
