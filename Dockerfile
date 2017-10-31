@@ -33,9 +33,16 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
-## Downloading Kaldi & Kaldi PUA resources
+## Install Kaldi
 RUN git clone https://github.com/kaldi-asr/kaldi.git kaldi --origin upstream && \
+cd /kaldi/tools && make && \
+cd /kaldi/src && ./configure && make depend && make
+
+## Download PUA resources
 cd /kaldi/ && git clone https://github.com/popuparchive/american-archive-kaldi && \
 cd /kaldi/american-archive-kaldi/sample_experiment/ && \
 wget https://sourceforge.net/projects/popuparchive-kaldi/files/exp2.tar.gz && \
 tar -xvzf exp2.tar.gz
+
+#&& \
+#mv exp2 exp
