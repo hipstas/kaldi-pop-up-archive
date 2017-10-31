@@ -1,5 +1,5 @@
 ## Kaldi Pop Up Archive Image
-FROM ubuntu:16.04
+FROM ubuntu:16.10
 MAINTAINER Steve McLaughlin <stephen.mclaughlin@utexas.edu>
 
 ENV PYTHONWARNINGS="ignore:a true SSLContext object"
@@ -42,5 +42,20 @@ cd /kaldi/american-archive-kaldi/sample_experiment/ && \
 wget https://sourceforge.net/projects/popuparchive-kaldi/files/exp2.tar.gz && \
 tar -xvzf exp2.tar.gz && \
 mv exp2 exp
+
+
+## Install sctk
+RUN apt-get update && apt-get install -y sctk
+
+#RUN cd /kaldi/tools/ && rm -rf sctk-2.4.10
+#RUN wget http://www.openslr.org/resources/4/sctk-2.4.10-20151007-1312Z.tar.bz2 && \
+#tar jxf sctk-2.4.10-20151007-1312Z.tar.bz2 && \
+#cd sctk-2.4.10 && \
+#make config && \
+#make all && \
+#make check && \
+#make install && \
+#make doc && \
+
 
 #### Don't touch above this line. ####
