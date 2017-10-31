@@ -42,7 +42,7 @@ wget https://sourceforge.net/projects/popuparchive-kaldi/files/exp2.tar.gz && \
 tar -xvzf exp2.tar.gz
 
 ## Install Kaldi
-cd /kaldi/tools && make && \
+RUN cd /kaldi/tools && make && \
 cd /kaldi/src && ./configure && make depend && make
 
 ## Creating expected symlinks
