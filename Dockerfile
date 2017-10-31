@@ -13,12 +13,14 @@ apport \
 apport-symptoms \
 arping \
 autoconf \
+make \
 automake \
 autotools-dev \
 binutils \
 biosdevname \
 build-essential \
 byobu \
+bzip2 \
 cloud-guest-utils \
 cloud-image-utils \
 cloud-init \
@@ -135,6 +137,7 @@ openssh-sftp-server \
 overlayroot \
 policykit-1 \
 pollinate \
+python2.7 \
 python-cheetah \
 python-colorama \
 python-configobj \
@@ -186,13 +189,14 @@ unzip \
 update-notifier-common \
 wireless-regdb \
 zerofree \
-zlib1g-dev
+zlib1g-dev \
+&& ln -s /usr/bin/python2.7 /usr/bin/python
 
 ## Setting UTF-8 as default encoding format for terminal
-RUN apt-get install -y language-pack-en
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
+#RUN apt-get install -y language-pack-en
+#ENV LANG en_US.UTF-8
+#ENV LANGUAGE en_US:en
+#ENV LC_ALL en_US.UTF-8
 
 ## Installing FFmpeg
 RUN add-apt-repository ppa:jonathonf/ffmpeg-3 \
@@ -200,17 +204,22 @@ RUN add-apt-repository ppa:jonathonf/ffmpeg-3 \
 && apt install -y ffmpeg libav-tools x264 x265
 
 ## Installing Perl dependencies
-RUN curl -L http://cpanmin.us | perl - App::cpanminus
-RUN cpanm File::Slurp::Tiny Data::Dump
+RUN curl -L http://cpanmin.us | perl - App::cpanminus && cpanm File::Slurp::Tiny Data::Dump
 
 WORKDIR /home
 
-RUN git clone https://github.com/kaldi-asr/kaldi.git kaldi --origin upstream && \
-cd kaldi/tools && make
+##
 
-RUN cd /home/kaldi/src && ./configure && make depend && make
+#RUN git clone https://github.com/kaldi-asr/kaldi.git kaldi --origin upstream && \
+#cd kaldi/tools && make
 
-RUN git clone https://github.com/popuparchive/american-archive-kaldi
+#RUN cd /home/kaldi/src && ./configure && make depend && make
+
+#RUN cd /home/kaldi/ && git clone https://github.com/popuparchive/american-archive-kaldi
+
+#RUN cd /home/kaldi/american-archive-kaldi/sample_experiment/ \
+#&& wget https://sourceforge.net/projects/popuparchive-kaldi/files/exp2.tar.gz \
+#&& tar -xvzf exp2.tar.gz
 
 #RUN ln -s /home/kaldi/egs/wsj/s5/steps /home/kaldi/american-archive-kaldi/sample_experiment/exp
 #RUN ln -s /home/kaldi/egs/wsj/s5/utils /home/kaldi/american-archive-kaldi/sample_experiment/exp
@@ -218,6 +227,4 @@ RUN git clone https://github.com/popuparchive/american-archive-kaldi
 #RUN ln -s /home/kaldi/egs/wsj/s5/steps /home/kaldi/american-archive-kaldi/sample_experiment/
 #RUN ln -s /home/kaldi/egs/wsj/s5/utils /home/kaldi/american-archive-kaldi/sample_experiment/
 
-
-#wget https://sourceforge.net/projects/popuparchive-kaldi/files/exp2.tar.gz
 #wget https://sourceforge.net/projects/popuparchive-kaldi/files/exp.zip
