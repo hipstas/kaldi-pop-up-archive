@@ -22,7 +22,7 @@ libatlas3-base \
 bzip2 \
 wget \
 libperl4-corelibs-perl \
-libperl4-corelibs-perl \
+libjson-perl \
 python2.7 && \
 ln -s /usr/bin/python2.7 /usr/bin/python && \
 ln -s -f bash /bin/sh
@@ -45,22 +45,18 @@ libsox-fmt-alsa \
 libsox-fmt-base \
 libsox2
 
-
-##
-
-#RUN git clone https://github.com/kaldi-asr/kaldi.git kaldi --origin upstream && \
-#cd kaldi/tools && make
-
-#RUN cd /kaldi/src && ./configure && make depend && make
-
+## Installing Kaldi
+RUN git clone https://github.com/kaldi-asr/kaldi.git kaldi --origin upstream && \
+cd kaldi/tools && make && \
+cd /kaldi/src && ./configure && make depend && make
 
 ## Installing Kaldi models from Pop Up Archive/American Archive of Public Broadcasting
-#RUN cd /kaldi/ && git clone https://github.com/popuparchive/american-archive-kaldi
+RUN cd /kaldi/ && git clone https://github.com/popuparchive/american-archive-kaldi
 
-#RUN cd /kaldi/american-archive-kaldi/sample_experiment/ \
-#&& wget https://sourceforge.net/projects/popuparchive-kaldi/files/exp2.tar.gz \
-#&& tar -xvzf exp2.tar.gz
-#&& mv exp2 exp
+#RUN cd /kaldi/american-archive-kaldi/sample_experiment/ && \
+#wget https://sourceforge.net/projects/popuparchive-kaldi/files/exp2.tar.gz && \
+#tar -xvzf exp2.tar.gz && \
+#mv exp2 exp
 
 #RUN ln -s /kaldi/egs/wsj/s5/steps /kaldi/american-archive-kaldi/sample_experiment/exp
 #RUN ln -s /kaldi/egs/wsj/s5/utils /kaldi/american-archive-kaldi/sample_experiment/exp
