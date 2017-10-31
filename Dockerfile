@@ -54,8 +54,8 @@ RUN apt-get update && apt-get install -y \
 sox libsox-fmt-alsa libsox-fmt-base libsox2 ffmpeg
 
 ## Install Kaldi
-RUN cd /kaldi/tools && make -j 4 && \
-cd /kaldi/src && ./configure && make depend && make -j 4
+RUN cd /kaldi/tools && make -j 8 && \
+cd /kaldi/src && ./configure && make depend && make -j 8
 
 ##Python
 RUN apt-get update && apt-get install -y python-pip && \
