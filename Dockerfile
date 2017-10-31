@@ -41,6 +41,8 @@ cd /kaldi/egs/american-archive-kaldi/sample_experiment/ && \
 wget https://sourceforge.net/projects/popuparchive-kaldi/files/exp2.tar.gz && \
 tar -xvzf exp2.tar.gz
 
+ RUN rm /kaldi/egs/american-archive-kaldi/sample_experiment/exp2.tar.gz
+
 ## Creating expected symlinks
 RUN ln -s /kaldi/egs/wsj/s5/steps /kaldi/egs/american-archive-kaldi/sample_experiment/exp && \
 ln -s /kaldi/egs/wsj/s5/utils /kaldi/egs/american-archive-kaldi/sample_experiment/exp && \
@@ -52,3 +54,40 @@ RUN apt-get update && apt-get install -y \
 sox libsox-fmt-alsa libsox-fmt-base libsox2 ffmpeg
 
 #### Don't touch above this line, 54. ####
+
+
+## Install Kaldi
+RUN cd /kaldi/tools && make -j 4 && \
+cd /kaldi/src && ./configure && make depend && make -j 4
+
+
+
+##Python
+RUN apt-get update && apt-get install -y python-pip && \
+pip install ftfy==4.4.3 && \
+alias python=python2.7
+
+## Installing IRSTLM
+RUN apt-get update && apt-get install -y cmake irstlm
+#RUN cd /kaldi/tools/extras/ && \
+#sh install_irstlm.sh
+
+## Installing CMUseg
+RUN cd /kaldi/egs/american-archive-kaldi/sample_experiment/ && \
+sh install-cmuseg.sh && \
+chmod -R 755 ./tools/CMUseg_0.5/bin/linux/
+
+## Setting script permissions
+RUN chmod 755 -R /kaldi/egs/american-archive-kaldi/sample_experiment/scripts/
+RUN chmod 755 -R /kaldi/egs/american-archive-kaldi/sample_experiment/run.sh
+
+# change first line to point to /kaldi
+#/kaldi/egs/american-archive-kaldi/set_kaldi_path.sh
+#/kaldi/egs/american-archive-kaldi/path.sh
+
+#pass pathname in docker call to a shell script
+#create a temp directory int he shared volume for 16khz files
+#convert media files to 16khz & remove troublesome characters
+#create an output directory and copy output transcript files to it
+
+#output: /kaldi/egs/american-archive-kaldi/sample_experiment/output
