@@ -34,13 +34,25 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
-## Install Kaldi
+## Download Kaldi and PUA resources
 RUN git clone https://github.com/kaldi-asr/kaldi.git kaldi --origin upstream && \
-cd /kaldi/tools && make && \
-cd /kaldi/src && ./configure && make depend && make
-
-## Download PUA resources
-RUN cd /kaldi/ && git clone https://github.com/popuparchive/american-archive-kaldi && \
+cd /kaldi/ && git clone https://github.com/popuparchive/american-archive-kaldi && \
 cd /kaldi/american-archive-kaldi/sample_experiment/ && \
 wget https://sourceforge.net/projects/popuparchive-kaldi/files/exp2.tar.gz && \
 tar -xvzf exp2.tar.gz
+
+## Install Kaldi
+cd /kaldi/tools && make && \
+cd /kaldi/src && ./configure && make depend && make
+
+## Creating expected symlinks
+RUN ln -s /kaldi/egs/wsj/s5/steps /kaldi/american-archive-kaldi/sample_experiment/exp && \
+ln -s /kaldi/egs/wsj/s5/utils /kaldi/american-archive-kaldi/sample_experiment/exp && \
+ln -s /kaldi/egs/wsj/s5/steps /kaldi/american-archive-kaldi/sample_experiment/ && \
+ln -s /kaldi/egs/wsj/s5/utils /kaldi/american-archive-kaldi/sample_experiment/
+
+## Installing SoX and FFmpeg
+RUN apt-get update && apt-get install -y \
+sox libsox-fmt-alsa libsox-fmt-base libsox2 ffmpeg
+
+#### Don't touch above this line, 58. ####
