@@ -33,12 +33,15 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
+## Installing Perl dependencies
+RUN curl -L http://cpanmin.us | perl - App::cpanminus && cpanm File::Slurp::Tiny Data::Dump
+
 ## Installing FFmpeg
 RUN add-apt-repository ppa:jonathonf/ffmpeg-3 \
 && apt -y update \
 && apt install -y ffmpeg libav-tools x264 x265
 
-## Installing additional dependencies
+## Installing more dependencies
 RUN apt-get update && apt-get install -y \
 sox \
 libsox-fmt-alsa \
@@ -54,18 +57,12 @@ cd /kaldi/src && ./configure && make depend && make
 RUN cd /kaldi/ && git clone https://github.com/popuparchive/american-archive-kaldi
 
 #RUN cd /kaldi/american-archive-kaldi/sample_experiment/ && \
-#wget https://sourceforge.net/projects/popuparchive-kaldi/files/exp2.tar.gz && \
-#tar -xvzf exp2.tar.gz && \
-#mv exp2 exp
+wget https://sourceforge.net/projects/popuparchive-kaldi/files/exp2.tar.gz && \
+tar -xvzf exp2.tar.gz && \
+mv exp2 exp
 
 #RUN ln -s /kaldi/egs/wsj/s5/steps /kaldi/american-archive-kaldi/sample_experiment/exp
 #RUN ln -s /kaldi/egs/wsj/s5/utils /kaldi/american-archive-kaldi/sample_experiment/exp
 
 #RUN ln -s /kaldi/egs/wsj/s5/steps /kaldi/american-archive-kaldi/sample_experiment/
 #RUN ln -s /kaldi/egs/wsj/s5/utils /kaldi/american-archive-kaldi/sample_experiment/
-
-
-
-
-## Installing Perl dependencies
-#RUN curl -L http://cpanmin.us | perl - App::cpanminus && cpanm File::Slurp::Tiny Data::Dump
