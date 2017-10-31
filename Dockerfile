@@ -1,4 +1,4 @@
-## Kaldi Pop Up Archive Container
+## Kaldi Pop Up Archive Image
 FROM ubuntu:16.04
 MAINTAINER Steve McLaughlin <stephen.mclaughlin@utexas.edu>
 
@@ -61,8 +61,6 @@ libasound2-data \
 libatlas3-base \
 libatomic1 \
 libblas3 \
-libboost-system1.54.0 \
-libboost-thread1.54.0 \
 libc-dev-bin \
 libc6-dev \
 libck-connector0 \
@@ -81,13 +79,10 @@ libgfortran3 \
 libgmp10 \
 libgomp1 \
 libgsm1 \
-libicu52 \
-libisl10 \
 libitm1 \
 libjson-perl \
 libjson-xs-perl \
 liblinear-tools \
-liblinear1 \
 libltdl-dev \
 libltdl7 \
 liblua5.2-0 \
@@ -140,17 +135,13 @@ openssh-sftp-server \
 overlayroot \
 policykit-1 \
 pollinate \
-python-chardet-whl \
 python-cheetah \
 python-colorama \
-python-colorama-whl \
 python-configobj \
 python-distlib \
-python-distlib-whl \
 python-distro-info \
 python-gdbm \
 python-html5lib \
-python-html5lib-whl \
 python-json-pointer \
 python-jsonpatch \
 python-lxml \
@@ -158,23 +149,18 @@ python-oauth \
 python-openssl \
 python-pam \
 python-pip \
-python-pip-whl \
 python-pkg-resources \
 python-prettytable \
 python-pycurl \
 python-requestbuilder \
 python-requests \
-python-requests-whl \
 python-serial \
 python-setuptools \
-python-setuptools-whl \
-python-six-whl \
 python-twisted-bin \
 python-twisted-core \
 python-twisted-names \
 python-twisted-web \
 python-urllib3 \
-python-urllib3-whl \
 python-wheel \
 python-yaml \
 python-zope.interface \
@@ -219,16 +205,18 @@ RUN cpanm File::Slurp::Tiny Data::Dump
 
 WORKDIR /home
 
-#ln -s /home/kaldi/egs/wsj/s5/steps /home/kaldi/american-archive-kaldi/sample_experiment/exp
-#ln -s /home/kaldi/egs/wsj/s5/utils /home/kaldi/american-archive-kaldi/sample_experiment/exp
+RUN git clone https://github.com/kaldi-asr/kaldi.git kaldi --origin upstream && \
+cd kaldi/tools && make
 
-#ln -s /home/kaldi/egs/wsj/s5/steps /home/kaldi/american-archive-kaldi/sample_experiment/
-#ln -s /home/kaldi/egs/wsj/s5/utils /home/kaldi/american-archive-kaldi/sample_experiment/
+RUN cd /home/kaldi/src && ./configure && make depend && make
 
+RUN git clone https://github.com/popuparchive/american-archive-kaldi
 
-#git clone https://github.com/kaldi-asr/kaldi.git kaldi --origin upstream
-#cd kaldi/tools
-#make
+#RUN ln -s /home/kaldi/egs/wsj/s5/steps /home/kaldi/american-archive-kaldi/sample_experiment/exp
+#RUN ln -s /home/kaldi/egs/wsj/s5/utils /home/kaldi/american-archive-kaldi/sample_experiment/exp
+
+#RUN ln -s /home/kaldi/egs/wsj/s5/steps /home/kaldi/american-archive-kaldi/sample_experiment/
+#RUN ln -s /home/kaldi/egs/wsj/s5/utils /home/kaldi/american-archive-kaldi/sample_experiment/
 
 
 #wget https://sourceforge.net/projects/popuparchive-kaldi/files/exp2.tar.gz
