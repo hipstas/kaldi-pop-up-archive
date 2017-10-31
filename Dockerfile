@@ -8,11 +8,11 @@ ENV SHELL /bin/bash
 ## Installing core system dependencies
 RUN apt-get update && \
 apt-get install -y \
-g++ zlib1g-dev make automake libtool-bin git build-essential && \
+g++ zlib1g-dev make automake autoconf libtool-bin git build-essential && \
 apt-get install -y \
 software-properties-common subversion libatlas3-base bzip2 wget curl gawk \
 zip unzip libperl4-corelibs-perl libjson-perl python2.7 python-pip && \
-pip install -U ftfy && \
+pip install -U ftfy==4.4.3 && \
 ln -s -f bash /bin/sh
 
 ## Installing old C/C++ compilers
