@@ -215,7 +215,6 @@ RUN add-apt-repository ppa:jonathonf/ffmpeg-3 \
 RUN curl -L http://cpanmin.us | perl - App::cpanminus
 RUN cpanm File::Slurp::Tiny Data::Dump
 
-
 WORKDIR /home
 
 ln -s /home/kaldi/egs/wsj/s5/steps /home/kaldi/american-archive-kaldi/sample_experiment/exp
