@@ -26,4 +26,4 @@ mv *_16kHz.wav /audio_in_16khz/
 ######### Starting the batch run ##########
 
 nohup python /kaldi/egs/american-archive-kaldi/run_kaldi.py /kaldi/egs/american-archive-kaldi/sample_experiment/ /audio_in_16khz/ && \
-rsync -a /kaldi/egs/american-archive-kaldi/sample_experiment/output/ /output/
+rsync -a /kaldi/egs/american-archive-kaldi/sample_experiment/output/ /audio_in/transcripts/
