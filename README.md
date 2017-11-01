@@ -105,7 +105,6 @@ Alternately, you can prepare your files and start the batch run manually.
 - Add some media files to the `/audio_in/` directory.
 
 ```
-mkdir /audio_in/
 cd /audio_in/
 ```
 
