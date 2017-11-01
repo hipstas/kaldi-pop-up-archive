@@ -74,9 +74,22 @@ chmod -R 755 ./tools/CMUseg_0.5/bin/linux/
 RUN chmod 755 -R /kaldi/egs/american-archive-kaldi/sample_experiment/scripts/
 RUN chmod 755 -R /kaldi/egs/american-archive-kaldi/sample_experiment/run.sh
 
-# change first line to point to /kaldi
-#/kaldi/egs/american-archive-kaldi/set_kaldi_path.sh
-#/kaldi/egs/american-archive-kaldi/path.sh
+## Configuration
+RUN cd /kaldi/egs/american-archive-kaldi/sample_experiment && \
+rm path.sh && \
+wget https://raw.githubusercontent.com/hipstas/kaldi-pop-up-archive/master/scripts/path.sh && \
+chmod 755 path.sh && \
+rm set-kaldi-path.sh && \
+wget https://raw.githubusercontent.com/hipstas/kaldi-pop-up-archive/master/scripts/set-kaldi-path.sh && \
+chmod 755 set-kaldi-path.sh && \
+cd /kaldi/egs/wsj/s5/utils/ && \
+rm run.pl && \
+wget https://raw.githubusercontent.com/hipstas/kaldi-pop-up-archive/master/scripts/run.pl && \
+chmod 755 run.pl && \
+mkdir /audio_in
+
+WORKDIR /audio_in
+
 
 #pass pathname in docker call to a shell script
 #create a temp directory int he shared volume for 16khz files
