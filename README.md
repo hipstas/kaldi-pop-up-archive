@@ -20,19 +20,19 @@ docker pull hipstas/kaldi-pop-up-archive
 *Linux:*
 
 ```
-docker run -it --name kaldi_pua -m 16g --volume /audio_in/:/audio_in/ hipstas/kaldi-pop-up-archive
+docker run -it --name kaldi_pua -m 16g --volume /audio_in/:/audio_in/ hipstas/kaldi-pop-up-archive:v1
 ```
 
 *macOS:*
 
 ```
-docker run -it --name kaldi_pua -m 16g --volume ~/Desktop/audio_in/:/audio_in/ hipstas/kaldi-pop-up-archive
+docker run -it --name kaldi_pua -m 16g --volume ~/Desktop/audio_in/:/audio_in/ hipstas/kaldi-pop-up-archive:v1
 ```
 
 *Windows:*
 
 ```
-docker run -it --name kaldi_pua -m 16g --volume C:\Users\***username_here***\Desktop\audio_in\:/audio_in/ hipstas/kaldi-pop-up-archive
+docker run -it --name kaldi_pua -m 16g --volume C:\Users\***username_here***\Desktop\audio_in\:/audio_in/ hipstas/kaldi-pop-up-archive:v1
 ```
 
 
