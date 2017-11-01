@@ -79,6 +79,17 @@ sh ./setup.sh
 ```
 
 
+## Notes
+
+- Run a test with one or two short media files before beginning a big job. If Kaldi runs out of memory, it may crash without explanation.
+
+- Any commas, spaces, pipes, etc. in audio filenames will break the script and halt progress without producing any descriptive errors. To be safe, you may want to rename each file with a unique ID before starting. I'll try to address when I get a moment.
+
+- With this configuration, speech-to-text processing will take roughly 5 times the duration of your audio input, or perhaps much longer on a home PC.
+
+
+
+
 ## Manual method
 
 Alternately, you can start the batch manually. You will need to run the first chunk of [setup.sh](https://github.com/hipstas/kaldi-pop-up-archive/blob/master/setup.sh) by hand first, however.
@@ -117,14 +128,5 @@ python /kaldi/egs/american-archive-kaldi/run_kaldi.py /kaldi/egs/american-archiv
 ```
 /kaldi/egs/american-archive-kaldi/sample_experiment/output/
 ```
-
-## Notes
-
-- Run a test with one or two short media files before beginning a big job. If Kaldi runs out of memory, it may crash without explanation.
-
-- Any commas, spaces, pipes, etc. in audio filenames will break the script and halt progress without producing any descriptive errors. To be safe, you may want to rename each file with a unique ID before starting. I'll try to address when I get a moment.
-
-- With this configuration, speech-to-text processing will take roughly 5 times the duration of your audio input, or perhaps much longer on a home PC.
-
 
 
