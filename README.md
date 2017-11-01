@@ -102,7 +102,7 @@ mkdir /audio_in/
 cd /audio_in/
 ```
 
-- Make a 16kHz copy of each file with `ffmpeg`.
+- Make a 16kHz WAV copy of each file with `ffmpeg`.
 
 ```
 for file in *.{wav,mp3,mp4,WAV,MP3,MP4}; do
@@ -111,7 +111,7 @@ ffmpeg -i """$file""" -ac 1 -ar 16000 """$base"""_16kHz.wav;
 done
 ```
 
-- Now move the 16 kHz WAV files to a separate folder.
+- Now move the 16kHz WAV files to a separate folder.
 
 ```
 mkdir /audio_in_16khz/
