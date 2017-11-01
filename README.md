@@ -9,7 +9,7 @@
 
 ### Setup notes
 
-- Pull image from Docker Hub (11GB compressed, 24GB uncompressed).
+- Pull image from Docker Hub (12GB compressed, 24GB uncompressed).
 
 ```
 docker pull hipstas/kaldi-pop-up-archive
@@ -17,7 +17,7 @@ docker pull hipstas/kaldi-pop-up-archive
 
 - Run Docker container, adjusting memory allowance and location of shared folder as needed (>=16 GB RAM recommended).
 
-*Linux VPS (recommended):*
+*Linux:*
 
 ```
 docker run -it --name kaldi_pua -m 16g --volume /audio_in/:/audio_in/ hipstas/kaldi-pop-up-archive
@@ -26,13 +26,13 @@ docker run -it --name kaldi_pua -m 16g --volume /audio_in/:/audio_in/ hipstas/ka
 *macOS:*
 
 ```
-docker run -it --name kaldi_pua --volume ~/Desktop/audio_in/:/audio_in/ hipstas/kaldi-pop-up-archive
+docker run -it --name kaldi_pua -m 16g --volume ~/Desktop/audio_in/:/audio_in/ hipstas/kaldi-pop-up-archive
 ```
 
-*Windows 10:*
+*Windows:*
 
 ```
-docker run -it --name kaldi_pua --volume C:\Users\***username_here***\Desktop\audio_in\:/audio_in/ hipstas/kaldi-pop-up-archive
+docker run -it --name kaldi_pua -m 16g --volume C:\Users\***username_here***\Desktop\audio_in\:/audio_in/ hipstas/kaldi-pop-up-archive
 ```
 
 
@@ -79,7 +79,7 @@ wget https://raw.githubusercontent.com/hipstas/kaldi-pop-up-archive/master/setup
 sh ./setup.sh
 ```
 
-The script above uses `nohup` to keep your job running in the background. If you'd like to monitor its status, use the following infinite loop:
+To keep your job from ending when you close the terminal window (or your connection to the server is interrupted), use `nohup sh ./setup.sh` instead, then close the window. If you'd like to monitor the job's status, open a new terminal session and use the following command to display the end of your `nohup` log file every 3 seconds:
 
 ```
 while :; do tail -n 30 nohup.out; sleep 3; done
@@ -88,20 +88,19 @@ while :; do tail -n 30 nohup.out; sleep 3; done
 
 ### Notes
 
-- Run a test with one or two short media files before beginning a big job. If Kaldi runs out of memory, it may crash without explanation.
+- Try running a test with one or two short media files before beginning a big job. If Kaldi doesn't have enough memory, it will crash without explanation. If this happens, try reducing the number of simultaneous jobs as described above.
 
-- Any commas, spaces, pipes, etc. in audio filenames will break the script and halt progress without producing any descriptive errors. To be safe, you may want to rename each file with a unique ID before starting. I'll try to address when I get a moment.
+- Any commas, spaces, pipes, etc. in audio filenames will break the script and halt progress without producing any descriptive errors. To be safe, you may want to rename each file with a unique ID before starting. I'll fix this when I get a chance.
 
-- With this configuration, speech-to-text processing will take roughly 5 times the duration of your audio input, or perhaps much longer on a home PC.
-
+- With this configuration, speech-to-text processing may take 5 times the duration of your audio input, or perhaps even longer. If you have memory to spare, you can speed things up by increasing the number of simultaneous jobs. Use the `free -m` command while Kaldi is running to see how you're doing.
 
 
 
 ### Manual method
 
-Alternately, you can start the batch manually. You will need to run the first chunk of [setup.sh](https://github.com/hipstas/kaldi-pop-up-archive/blob/master/setup.sh) by hand first, however.
+Alternately, you can prepare your files and start the batch run manually.
 
-- Now create the `/audio_in/` directory in your Docker container and add some media files.
+- Add some media files to the `/audio_in/` directory.
 
 ```
 mkdir /audio_in/
@@ -117,20 +116,20 @@ ffmpeg -i """$file""" -ac 1 -ar 16000 """$base"""_16kHz.wav;
 done
 ```
 
-- Now move the 16kHz WAV files to a separate folder.
+- Now move the 16kHz WAV files to a separate directory.
 
 ```
 mkdir /audio_in_16khz/
 mv *_16kHz.wav /audio_in_16khz/
 ```
 
-- Start the batch transcription run.
+- Start the batch transcription run like so.
 
 ```
 python /kaldi/egs/american-archive-kaldi/run_kaldi.py /kaldi/egs/american-archive-kaldi/sample_experiment/ /audio_in_16khz/
 ```
 
-- When the batch is complete, plain text and JSON transcripts will be written here:
+- When Kaldi finishes processing an audio file, plain text and JSON transcripts will be written here:
 
 ```
 /kaldi/egs/american-archive-kaldi/sample_experiment/output/

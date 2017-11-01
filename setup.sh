@@ -1,19 +1,6 @@
 #!/bin/bash
 
-cd /kaldi/egs/american-archive-kaldi/sample_experiment
-rm path.sh
-wget https://raw.githubusercontent.com/hipstas/kaldi-pop-up-archive/master/scripts/path.sh
-chmod 775 path.sh
-rm set-kaldi-path.sh
-wget https://raw.githubusercontent.com/hipstas/kaldi-pop-up-archive/master/scripts/set-kaldi-path.sh
-chmod 775 set-kaldi-path.sh
-cd /kaldi/egs/wsj/s5/utils/
-rm run.pl
-wget https://raw.githubusercontent.com/hipstas/kaldi-pop-up-archive/master/scripts/run.pl
-chmod 775 run.pl
-
-mkdir /audio_in
-cd /audio_in
+cd /audio_in/
 
 ## Now add media files to /audio_in/
 
@@ -25,8 +12,7 @@ done
 mkdir /audio_in_16khz/
 mv *_16kHz.wav /audio_in_16khz/
 
+######### Starting the batch transcription run ##########
 
-######### Starting the batch run ##########
-
-nohup python /kaldi/egs/american-archive-kaldi/run_kaldi.py /kaldi/egs/american-archive-kaldi/sample_experiment/ /audio_in_16khz/ && \
+python /kaldi/egs/american-archive-kaldi/run_kaldi.py /kaldi/egs/american-archive-kaldi/sample_experiment/ /audio_in_16khz/ && \
 rsync -a /kaldi/egs/american-archive-kaldi/sample_experiment/output/ /audio_in/transcripts/
