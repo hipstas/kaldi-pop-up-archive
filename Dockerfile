@@ -1,4 +1,4 @@
-## Kaldi Pop Up Archive Image
+## Dockerized speech recognition with Kaldi + Pop Up Archive models
 FROM ubuntu:16.10
 MAINTAINER Steve McLaughlin <stephen.mclaughlin@utexas.edu>
 
@@ -24,7 +24,7 @@ alias g++='g++-4.8' && alias c++='c++-4.8'
 ## Installing Perl dependencies
 RUN curl -L http://cpanmin.us | perl - App::cpanminus && cpanm File::Slurp::Tiny Data::Dump
 
-## Install sctk
+## Installing sclite
 RUN apt-get update && apt-get install -y sctk && \
 alias sclite="sctk sclite"
 
@@ -34,13 +34,14 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
-## Download Kaldi and PUA resources
+## Downloading Kaldi and PUA resources
 RUN git clone https://github.com/kaldi-asr/kaldi.git kaldi --origin upstream && \
 cd /kaldi/egs/ && git clone https://github.com/popuparchive/american-archive-kaldi && \
 cd /kaldi/egs/american-archive-kaldi/sample_experiment/ && \
 wget https://sourceforge.net/projects/popuparchive-kaldi/files/exp2.tar.gz && \
 tar -xvzf exp2.tar.gz
 
+## Cleaning up
 RUN rm /kaldi/egs/american-archive-kaldi/sample_experiment/exp2.tar.gz
 
 ## Creating expected symlinks
@@ -53,11 +54,11 @@ ln -s /kaldi/egs/wsj/s5/utils /kaldi/egs/american-archive-kaldi/sample_experimen
 RUN apt-get update && apt-get install -y \
 sox libsox-fmt-alsa libsox-fmt-base libsox2 ffmpeg
 
-## Install Kaldi
+## Compiling Kaldi
 RUN cd /kaldi/tools && make -j 8 && \
 cd /kaldi/src && ./configure && make depend && make -j 8
 
-##Python
+## Installing pip and ftfy
 RUN apt-get update && apt-get install -y python-pip && \
 pip install ftfy==4.4.3 && \
 alias python=python2.7
@@ -77,7 +78,7 @@ chmod -R 755 ./tools/CMUseg_0.5/bin/linux/
 RUN chmod 755 -R /kaldi/egs/american-archive-kaldi/sample_experiment/scripts/
 RUN chmod 755 -R /kaldi/egs/american-archive-kaldi/sample_experiment/run.sh
 
-## Configuration
+## Configuration tweaks
 RUN cd /kaldi/egs/american-archive-kaldi/sample_experiment && \
 rm path.sh && \
 wget https://raw.githubusercontent.com/hipstas/kaldi-pop-up-archive/master/scripts/path.sh && \
@@ -93,10 +94,9 @@ mkdir /audio_in
 
 WORKDIR /audio_in
 
+## Plans for next iteration
+# Pass local directory pathname as a shared volume in docker run command, then launch setup.sh as CMD or ENTRYPOINT.
+# Handle troublesome filename characters by quoting arguments in run.sh ... or just remove them.
+# Set nj prefs in a yaml file or some such.
 
-#pass pathname in docker call to a shell script
-#create a temp directory int he shared volume for 16khz files
-#convert media files to 16khz & remove troublesome characters
-#create an output directory and copy output transcript files to it
-
-#output: /kaldi/egs/american-archive-kaldi/sample_experiment/output
+# Transcript output location: /kaldi/egs/american-archive-kaldi/sample_experiment/output
