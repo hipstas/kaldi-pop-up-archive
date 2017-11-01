@@ -36,6 +36,35 @@ docker run -it --name kaldi_pua -m 16g --volume C:\Users\***username_here***\Des
 ```
 
 
+
+### Run speech-to-text batch
+
+- Add media files to `/audio_in/` (WAV, MP3, or MP4 video).
+
+- Download and run `setup.sh`, which will make a few configuration tweaks and start your job. When the batch is finished, your plain text and JSON transcript files will be written to `/audio_in/transcripts/`.
+
+```
+wget https://raw.githubusercontent.com/hipstas/kaldi-pop-up-archive/master/setup.sh
+sh ./setup.sh
+```
+
+To keep your job from ending when you close the terminal window (or your connection to the server is interrupted), use `nohup sh ./setup.sh` instead, then close the window. If you'd like to monitor the job's status, open a new terminal session and use the following command to display the end of your `nohup` log file every 3 seconds:
+
+```
+while :; do tail -n 30 nohup.out; sleep 3; done
+```
+
+
+### Notes
+
+- Try running a test with one or two short media files before beginning a big job. If Kaldi doesn't have enough memory, it will crash without explanation. If this happens, try reducing the number of simultaneous jobs as described above.
+
+- Any commas, spaces, pipes, etc. in audio filenames will break the script and halt progress without producing any descriptive errors. To be safe, you may want to rename each file with a unique ID before starting. I'll fix this when I get a chance.
+
+- With this configuration, speech-to-text processing may take 5 times the duration of your audio input, or perhaps even longer. If you have memory to spare, you can speed things up by increasing the number of simultaneous jobs. Use the `free -m` command while Kaldi is running to see how you're doing.
+
+
+
 ### Optional performance tweaks
 
 - In `/kaldi/egs/american-archive-kaldi/sample_experiment/run.sh`, adjust the following option to set the number of simultaneous jobs:
@@ -66,33 +95,6 @@ max_active=2000
 ```
 nj=2
 ```
-
-
-### Run speech-to-text batch
-
-- Add media files to `/audio_in/` (WAV, MP3, or MP4 video).
-
-- Download and run `setup.sh`, which will make a few configuration tweaks and start your job. When the batch is finished, your plain text and JSON transcript files will be written to `/audio_in/transcripts/`.
-
-```
-wget https://raw.githubusercontent.com/hipstas/kaldi-pop-up-archive/master/setup.sh
-sh ./setup.sh
-```
-
-To keep your job from ending when you close the terminal window (or your connection to the server is interrupted), use `nohup sh ./setup.sh` instead, then close the window. If you'd like to monitor the job's status, open a new terminal session and use the following command to display the end of your `nohup` log file every 3 seconds:
-
-```
-while :; do tail -n 30 nohup.out; sleep 3; done
-```
-
-
-### Notes
-
-- Try running a test with one or two short media files before beginning a big job. If Kaldi doesn't have enough memory, it will crash without explanation. If this happens, try reducing the number of simultaneous jobs as described above.
-
-- Any commas, spaces, pipes, etc. in audio filenames will break the script and halt progress without producing any descriptive errors. To be safe, you may want to rename each file with a unique ID before starting. I'll fix this when I get a chance.
-
-- With this configuration, speech-to-text processing may take 5 times the duration of your audio input, or perhaps even longer. If you have memory to spare, you can speed things up by increasing the number of simultaneous jobs. Use the `free -m` command while Kaldi is running to see how you're doing.
 
 
 
