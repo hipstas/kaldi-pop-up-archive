@@ -16,9 +16,24 @@ docker pull hipstas/kaldi-pop-up-archive
 
 Run container, adjusting memory allowance and location of shared folder as needed (>=16 GB RAM recommended).
 
+Linux server:
+
 ```
-docker run -it --name kaldi_pua -m 16g --volume ~/Desktop/audio_in/:/audio_in/ hipstas/kaldi-pop-up-archive
+docker run -it --name kaldi_pua -m 16g --volume /audio_in/:/audio_in/ hipstas/kaldi-pop-up-archive
 ```
+
+macOS:
+
+```
+docker run -it --name kaldi_pua --volume ~/Desktop/audio_in/:/audio_in/ hipstas/kaldi-pop-up-archive
+```
+
+Windows 10:
+
+```
+docker run -it --name kaldi_pua --volume C:\Users\**username_here**\Desktop\audio_in\:/audio_in/ hipstas/kaldi-pop-up-archive
+```
+
 
 ## Optional performance tweaks
 
