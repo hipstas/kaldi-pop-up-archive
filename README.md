@@ -8,27 +8,27 @@
 
 ## Setup notes
 
-Pull image from Docker Hub (11GB compressed, 24GB uncompressed).
+- Pull image from Docker Hub (11GB compressed, 24GB uncompressed).
 
 ```
 docker pull hipstas/kaldi-pop-up-archive
 ```
 
-Run container, adjusting memory allowance and location of shared folder as needed (>=16 GB RAM recommended).
+- Run Docker container, adjusting memory allowance and location of shared folder as needed (>=16 GB RAM recommended).
 
-Linux server:
+*Linux VPS (recommended):*
 
 ```
 docker run -it --name kaldi_pua -m 16g --volume /audio_in/:/audio_in/ hipstas/kaldi-pop-up-archive
 ```
 
-macOS:
+*macOS:*
 
 ```
 docker run -it --name kaldi_pua --volume ~/Desktop/audio_in/:/audio_in/ hipstas/kaldi-pop-up-archive
 ```
 
-Windows 10:
+*Windows 10:*
 
 ```
 docker run -it --name kaldi_pua --volume C:\Users\**username_here**\Desktop\audio_in\:/audio_in/ hipstas/kaldi-pop-up-archive
@@ -37,13 +37,13 @@ docker run -it --name kaldi_pua --volume C:\Users\**username_here**\Desktop\audi
 
 ## Optional performance tweaks
 
-In `/kaldi/egs/american-archive-kaldi/sample_experiment/run.sh`, set the following option to reduce the number of simultaneous jobs:
+- In `/kaldi/egs/american-archive-kaldi/sample_experiment/run.sh`, set the following option to reduce the number of simultaneous jobs:
 
 ```
 nj=4
 ```
 
-In `/kaldi/egs/wsj/s5/utils/run.pl`, set the following option:
+- In `/kaldi/egs/wsj/s5/utils/run.pl`:
 
 ```
 $max_jobs_run = 10;
@@ -71,7 +71,7 @@ nj=2
 
 - Add media files to `/audio_in/` (WAV, MP3, or MP4 video).
 
-- Download and run `setup.sh`, which will make a few configuration tweaks and start your job. When the batch is finished, your txt and json transcript files will be written to `/audio_in/transcripts/`.
+- Download and run `setup.sh`, which will make a few configuration tweaks and start your job. When the batch is finished, your plain text and JSON transcript files will be written to `/audio_in/transcripts/`.
 
 ```
 wget https://raw.githubusercontent.com/hipstas/kaldi-pop-up-archive/master/setup.sh
@@ -81,16 +81,16 @@ sh ./setup.sh
 
 ## Manual method
 
-Alternately, you can start the batch manually. (You'll need to run the first chunk of `setup.sh` by hand first.)
+Alternately, you can start the batch manually. You will need to run the first chunk of [setup.sh](https://github.com/hipstas/kaldi-pop-up-archive/blob/master/setup.sh) by hand first, however.
 
-Create `/audio_in/` directory in your Docker container and add media files.
+- Now create the `/audio_in/` directory in your Docker container and add some media files.
 
 ```
 mkdir /audio_in/
 cd /audio_in/
 ```
 
-- Create a 16kHz copy of each file with `ffmpeg`.
+- Make a 16kHz copy of each file with `ffmpeg`.
 
 ```
 for file in *.{wav,mp3,mp4,WAV,MP3,MP4}; do
@@ -99,20 +99,32 @@ ffmpeg -i """$file""" -ac 1 -ar 16000 """$base"""_16kHz.wav;
 done
 ```
 
-- Start the batch transcript run.
+- Now move the 16 kHz WAV files to a separate folder.
 
 ```
-python /kaldi/egs/american-archive-kaldi/run_kaldi.py /kaldi/egs/american-archive-kaldi/sample_experiment/ /audio_in/
+mkdir /audio_in_16khz/
+mv *_16kHz.wav /audio_in_16khz/
 ```
 
-- When the batch is complete, plain text and JSON transcripts will be created here:
+- Start the batch transcription run.
 
 ```
-/kaldi/egs/american-archive-kaldi/sample_experiment/
+python /kaldi/egs/american-archive-kaldi/run_kaldi.py /kaldi/egs/american-archive-kaldi/sample_experiment/ /audio_in_16khz/
+```
+
+- When the batch is complete, plain text and JSON transcripts will be written here:
+
+```
+/kaldi/egs/american-archive-kaldi/sample_experiment/output/
 ```
 
 ## Notes
 
-- Any commas, spaces, pipes, etc. in audio filenames will break the script and halt progress (without producing any descriptive errors). To be safe, you might want to rename each file with a unique ID before starting.
+- Run a test with one or two short media files before beginning a big job. If Kaldi runs out of memory, it may crash without explanation.
 
-- With this configuration, speech-to-text processing will take roughly 5 times the duration of your audio input, or possibly more on a home computer.
+- Any commas, spaces, pipes, etc. in audio filenames will break the script and halt progress without producing any descriptive errors. To be safe, you may want to rename each file with a unique ID before starting. I'll try to address when I get a moment.
+
+- With this configuration, speech-to-text processing will take roughly 5 times the duration of your audio input, or perhaps much longer on a home PC.
+
+
+
