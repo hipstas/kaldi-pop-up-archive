@@ -1,4 +1,4 @@
-# Dockerized Speech Recognition with Kaldi + Pop Up Archive Models
+# Dockerized speech recognition with Kaldi + Pop Up Archive models
 
 ### References
 
