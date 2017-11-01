@@ -1,12 +1,13 @@
-# Kaldi Automatic Speech Recognition + Pop Up Archive Models
+## Kaldi Automatic Speech Recognition + Pop Up Archive Models in Docker
 
-## References
+### References
+
   - Kaldi: [http://kaldi-asr.org/](http://kaldi-asr.org/)
   - Pop Up Archive Kaldi release and install guide: [https://github.com/popuparchive/american-archive-kaldi](https://github.com/popuparchive/american-archive-kaldi)
   - PUA model files: [https://sourceforge.net/projects/popuparchive-kaldi/files/](https://sourceforge.net/projects/popuparchive-kaldi/files/)
   - American Archive of Public Broadcasting (source of training set): [http://americanarchive.org/](http://americanarchive.org/)
 
-## Setup notes
+### Setup notes
 
 - Pull image from Docker Hub (11GB compressed, 24GB uncompressed).
 
@@ -35,7 +36,7 @@ docker run -it --name kaldi_pua --volume C:\Users\**username_here**\Desktop\audi
 ```
 
 
-## Optional performance tweaks
+### Optional performance tweaks
 
 - In `/kaldi/egs/american-archive-kaldi/sample_experiment/run.sh`, set the following option to reduce the number of simultaneous jobs:
 
@@ -67,7 +68,7 @@ nj=2
 ```
 
 
-## Run speech-to-text batch
+### Run speech-to-text batch
 
 - Add media files to `/audio_in/` (WAV, MP3, or MP4 video).
 
@@ -79,7 +80,7 @@ sh ./setup.sh
 ```
 
 
-## Notes
+### Notes
 
 - Run a test with one or two short media files before beginning a big job. If Kaldi runs out of memory, it may crash without explanation.
 
@@ -90,7 +91,7 @@ sh ./setup.sh
 
 
 
-## Manual method
+### Manual method
 
 Alternately, you can start the batch manually. You will need to run the first chunk of [setup.sh](https://github.com/hipstas/kaldi-pop-up-archive/blob/master/setup.sh) by hand first, however.
 
