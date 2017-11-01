@@ -65,6 +65,9 @@ alias python=python2.7
 ## Installing IRSTLM
 RUN apt-get update && apt-get install -y cmake irstlm
 
+## Installing nano
+RUN apt-get update && apt-get install -y nano
+
 ## Installing CMUseg
 RUN cd /kaldi/egs/american-archive-kaldi/sample_experiment/ && \
 sh install-cmuseg.sh && \
