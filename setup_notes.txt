@@ -1,5 +1,6 @@
 
 ## Setup notes
+
   - 16 GB RAM recommended (Attempts at running Kaldi with less memory crashed repeatedly.)
 
 ## References
@@ -47,13 +48,25 @@ done
 
 ## Run speech-to-text batch
 
-- Create the following directory and add 16kHz WAV files.
+
+- Create the following directory and add your media files (WAV, MP3, or MP4 video).
 
 ```
-/audio_in/
+mkdir /audio_in/
+cd /audio_in/
 ```
 
-- Start the batch run.
+
+- Download and run `setup.sh` to make a few configuration tweaks and start your job. When the batch is finished, your txt and json transcript files will be written to `/output/`.
+
+```
+wget https://raw.githubusercontent.com/hipstas/kaldi-pop-up-archive/master/setup.sh
+sh ./setup.sh
+```
+
+
+
+- Alternately, you can start the batch run manually. (You'll need to run the first chunk of `setup.sh` by hand first.)
 
 ```
 python /kaldi/egs/american-archive-kaldi/run_kaldi.py /kaldi/egs/american-archive-kaldi/sample_experiment/ /audio_in/
