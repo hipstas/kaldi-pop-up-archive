@@ -32,13 +32,13 @@ docker run -it --name kaldi_pua --volume ~/Desktop/audio_in/:/audio_in/ hipstas/
 *Windows 10:*
 
 ```
-docker run -it --name kaldi_pua --volume C:\Users\**username_here**\Desktop\audio_in\:/audio_in/ hipstas/kaldi-pop-up-archive
+docker run -it --name kaldi_pua --volume C:\Users\***username_here***\Desktop\audio_in\:/audio_in/ hipstas/kaldi-pop-up-archive
 ```
 
 
 ### Optional performance tweaks
 
-- In `/kaldi/egs/american-archive-kaldi/sample_experiment/run.sh`, set the following option to reduce the number of simultaneous jobs:
+- In `/kaldi/egs/american-archive-kaldi/sample_experiment/run.sh`, adjust the following option to set the number of simultaneous jobs:
 
 ```
 nj=4
@@ -77,6 +77,12 @@ nj=2
 ```
 wget https://raw.githubusercontent.com/hipstas/kaldi-pop-up-archive/master/setup.sh
 sh ./setup.sh
+```
+
+The script above uses `nohup` to keep your job running in the background. If you'd like to monitor its status, use the following infinite loop:
+
+```
+while :; do tail -n 30 nohup.out; sleep 3; done
 ```
 
 
@@ -129,5 +135,3 @@ python /kaldi/egs/american-archive-kaldi/run_kaldi.py /kaldi/egs/american-archiv
 ```
 /kaldi/egs/american-archive-kaldi/sample_experiment/output/
 ```
-
-
