@@ -68,14 +68,14 @@ sh ./setup.sh
 
 Alternately, you can start the batch manually. (You'll need to run the first chunk of `setup.sh` by hand first.)
 
-Create `/audio_in/` directory and add media files.
+Create `/audio_in/` directory in your Docker container and add media files.
 
 ```
 mkdir /audio_in/
 cd /audio_in/
 ```
 
-- Create 16kHz copies with `ffmpeg`.
+- Create a 16kHz copy of each file with `ffmpeg`.
 
 ```
 for file in *.{wav,mp3,mp4,WAV,MP3,MP4}; do
@@ -84,7 +84,7 @@ ffmpeg -i """$file""" -ac 1 -ar 16000 """$base"""_16kHz.wav;
 done
 ```
 
-- Start the batch run.
+- Start the batch transcript run.
 
 ```
 python /kaldi/egs/american-archive-kaldi/run_kaldi.py /kaldi/egs/american-archive-kaldi/sample_experiment/ /audio_in/
