@@ -1,4 +1,4 @@
-# Dockerized Kaldi + Pop Up Archive Automatic Speech Recognition 
+# Kaldi + Pop Up Archive Automatic Speech Recognition in Docker
 
 ### References
 
