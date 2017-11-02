@@ -16,3 +16,5 @@ mv *_16kHz.wav /audio_in_16khz/
 
 python /kaldi/egs/american-archive-kaldi/run_kaldi.py /kaldi/egs/american-archive-kaldi/sample_experiment/ /audio_in_16khz/ && \
 rsync -a /kaldi/egs/american-archive-kaldi/sample_experiment/output/ /audio_in/transcripts/
+
+rm -r /audio_in_16khz/
