@@ -15,45 +15,46 @@
 docker pull hipstas/kaldi-pop-up-archive
 ```
 
-- Run Docker container, adjusting memory allowance and location of shared folder as needed (>=16 GB RAM recommended).
+- Run the Docker container using one of the following commands. If you're using Linux, this will create a shared volume at `/audio_in`. On macOS or Windows, a folder called `audio_in` will appear on your desktop.
 
 *Linux:*
 
 ```
-docker run -it --name kaldi_pua -m 16g --volume /audio_in/:/audio_in/ hipstas/kaldi-pop-up-archive:v1
+docker run -it --name kaldi_pua --volume /audio_in/:/audio_in/ hipstas/kaldi-pop-up-archive:v1
 ```
 
 *macOS:*
 
 ```
-docker run -it --name kaldi_pua -m 16g --volume ~/Desktop/audio_in/:/audio_in/ hipstas/kaldi-pop-up-archive:v1
+docker run -it --name kaldi_pua --volume ~/Desktop/audio_in/:/audio_in/ hipstas/kaldi-pop-up-archive:v1
 ```
 
 *Windows:*
 
 ```
-docker run -it --name kaldi_pua -m 16g --volume C:\Users\***username_here***\Desktop\audio_in\:/audio_in/ hipstas/kaldi-pop-up-archive:v1
+docker run -it --name kaldi_pua --volume C:\Users\***username_here***\Desktop\audio_in\:/audio_in/ hipstas/kaldi-pop-up-archive:v1
 ```
 
+### Check your memory allocation
 
+- Open your Docker preferences and make sure Docker has access to at least 6GB of RAM. The more, the better.
 
 ### Run speech-to-text batch
 
-- Add media files to `/audio_in/` (WAV, MP3, or MP4 video).
+- Add media files to your `/audio_in` shared volume (WAV, MP3, or MP4 video).
 
-- Download and run `setup.sh`, which will make a few configuration tweaks and start your job. When the batch is finished, your plain text and JSON transcript files will be written to `/audio_in/transcripts/`.
+- In the Docker terminal session, enter the following commands to download and run the `setup.sh` script, which will start your job. When the batch is finished, your plain text and JSON transcript files will be written to `/audio_in/transcripts/`.
 
 ```
 wget https://raw.githubusercontent.com/hipstas/kaldi-pop-up-archive/master/setup.sh
 sh ./setup.sh
 ```
 
-To keep your job from ending when you close the terminal window (or your connection to the server is interrupted), use `nohup sh ./setup.sh` instead, then close the window. If you'd like to monitor the job's status, open a new terminal session and use the following command to display the end of your `nohup` log file every 3 seconds:
+To keep your job from ending when you close the terminal window (or your connection to the server is interrupted), use `nohup sh ./setup.sh` instead, then close the window. If you'd like to monitor the job's status, open a new terminal session (`docker exec -it kaldi_pua bash`) and use the following command to display the end of your `nohup` log file every 3 seconds:
 
 ```
 while :; do tail -n 30 nohup.out; sleep 3; done
 ```
-
 
 ### Notes
 
