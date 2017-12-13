@@ -12,7 +12,7 @@
 - Pull image from Docker Hub (12GB compressed, 24GB uncompressed).
 
 ```
-docker pull hipstas/kaldi-pop-up-archive
+docker pull hipstas/kaldi-pop-up-archive:v1
 ```
 
 - Run the Docker container using one of the following commands. If you're using Linux, this will create a shared volume at `/audio_in`. On macOS or Windows, a folder called `audio_in` will appear on your desktop.
