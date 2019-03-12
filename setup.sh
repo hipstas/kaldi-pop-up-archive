@@ -12,16 +12,16 @@ if [ ${file: -4} == ".MP3" ]; then
 base=$(basename """$file""" .MP3);
 fi
 if [ ${file: -4} == ".mp4" ]; then
-base=$(basename """$file""" .mp3);
+base=$(basename """$file""" .MP4);
 fi
 if [ ${file: -4} == ".MP4" ]; then
-base=$(basename """$file""" .MP3);
+base=$(basename """$file""" .MP4);
 fi
 if [ ${file: -4} == ".wav" ]; then
 base=$(basename """$file""" .wav);
 fi
 if [ ${file: -4} == ".WAV" ]; then
-base=$(basename """$file""" .wav);
+base=$(basename """$file""" .WAV);
 fi
 ffmpeg -i """$file""" -ac 1 -ar 16000 """$base"""_16kHz.wav;
 done
